@@ -1,0 +1,131 @@
+.card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.headerTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timestamp {
+  flex: none;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/*
+ * Fit the whole image rather than cropping it. The aspect ratio is set inline
+ * per image, from the width/height the API already gives us, so the card
+ * reserves the correct space before the image loads — without that the feed
+ * would jump under the reader's thumb on every load and disturb scroll
+ * restoration. max-height keeps very tall portraits from filling the screen.
+ */
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  background: var(--bg);
+}
+
+.caption {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.captionTitle {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/*
+ * Exactly four lines, with "… read more" pinned to the end of the fourth.
+ * line-clamp cannot append text at the truncation point, so the affordance is
+ * positioned over a short gradient that fades out the clipped text beneath it.
+ */
+.summary {
+  position: relative;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  max-height: calc(4 * 1.45 * 0.9rem);
+  color: var(--text);
+}
+
+.readMore {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding-left: 2.5rem;
+  color: var(--muted);
+  background: linear-gradient(to right, transparent, var(--surface) 2rem);
+}
+
+/*
+ * Occupies the same height as the four clamped lines of a real summary, so a
+ * card does not resize when its text arrives and shift the feed under the
+ * reader's thumb.
+ */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  height: calc(4 * 1.45 * 0.9rem);
+  padding-top: 0.2rem;
+}
+
+.skeletonLine {
+  height: 0.7rem;
+  border-radius: 0.25rem;
+  background: var(--border);
+  background-image: linear-gradient(90deg, var(--border) 0%, var(--bg) 40%, var(--border) 80%);
+  background-size: 300% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonLine:nth-child(2) {
+  width: 92%;
+}
+
+.skeletonLine:nth-child(3) {
+  width: 68%;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 150% 0;
+  }
+
+  to {
+    background-position: -150% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonLine {
+    background-image: none;
+    animation: none;
+  }
+}
