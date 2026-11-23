@@ -9,7 +9,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         // Overridden by fastlane (-PversionCode=… -PversionName=…) for release builds.
         versionCode((project.findProperty('versionCode') ?: '1').toString().toInteger())
-        versionName((project.findProperty('versionName') ?: '1.0.0').toString())
+        versionName((project.findProperty('versionName') ?: '1.0.1').toString())
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

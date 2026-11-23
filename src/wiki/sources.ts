@@ -4,7 +4,7 @@ import { MediaWikiSource } from './mediawiki.ts'
 import type { WikiSource } from './types.ts'
 
 /** Wikimedia's etiquette policy asks for an identifying User-Agent. See README. */
-const USER_AGENT = 'wiki-scroll/1.0.0 (https://github.com/Adorkable/wiki_scroll)'
+const USER_AGENT = 'wiki-scroll/1.0.1 (https://github.com/Adorkable/wiki_scroll)'
 
 export class UnknownSiteError extends Error {
   constructor(siteId: string) {
