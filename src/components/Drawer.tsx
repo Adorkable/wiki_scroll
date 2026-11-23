@@ -34,9 +34,12 @@ export default function Drawer(props: DrawerProps) {
         <A href="/settings" class={styles.item} onClick={() => props.onClose()}>
           Settings
         </A>
+        <A href="/privacy" class={`${styles.item} ${styles.bottom}`} onClick={() => props.onClose()}>
+          Privacy
+        </A>
         <button
           type="button"
-          class={`${styles.item} ${styles.bottom}`}
+          class={styles.item}
           onClick={() => {
             props.onClose()
             props.onAbout()

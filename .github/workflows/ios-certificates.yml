@@ -1,0 +1,30 @@
+name: iOS certificates
+
+# One-time (and yearly, when the certificate expires): creates the App Store
+# distribution certificate and provisioning profile and stores them, encrypted
+# with MATCH_PASSWORD, in the private match repo. Lets the setup run without a
+# Mac. Needs MATCH_GIT_BASIC_AUTHORIZATION to have WRITE access to that repo
+# while it runs; the release workflow only needs read access.
+on:
+  workflow_dispatch:
+
+jobs:
+  certificates:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+
+      - name: Create certificate and profile
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_P8: ${{ secrets.APP_STORE_CONNECT_API_KEY_P8 }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+        run: bundle exec fastlane ios certificates

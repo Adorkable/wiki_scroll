@@ -10,7 +10,15 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "update-catalogue": "node --experimental-strip-types scripts/update-catalogue.mjs"
+    "update-catalogue": "node --experimental-strip-types scripts/update-catalogue.mjs",
+    "release:setup": "node scripts/release/setup.mjs",
+    "release:secrets": "node scripts/release/github-secrets.mjs",
+    "release:gcp-setup": "node scripts/release/gcp-setup.mjs",
+    "android:keystore": "node scripts/release/android-keystore.mjs",
+    "android:build": "node scripts/release/android.mjs build",
+    "android:deploy": "node scripts/release/android.mjs deploy",
+    "ios:certificates": "node scripts/release/ios.mjs certificates",
+    "ios:beta": "node scripts/release/ios.mjs beta"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",

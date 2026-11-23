@@ -1,0 +1,6 @@
+# Signing certificates and profiles live encrypted in a separate PRIVATE git
+# repo. See RELEASING.md for the one-time setup.
+git_url(ENV["MATCH_GIT_URL"])
+storage_mode("git")
+type("appstore")
+app_identifier(["com.adorkable.wikiscroll"])

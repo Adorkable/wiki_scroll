@@ -24,3 +24,24 @@ dist-ssr
 *.sw?
 
 .superpowers/
+
+# Ruby / Bundler (gems installed locally with `bundle config set --local path vendor/bundle`)
+/vendor/bundle/
+/.bundle/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+/build/
+
+# Signing secrets: these belong in GitHub secrets, never in the repo
+/secrets/
+fastlane/.env
+*.keystore
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+play-service-account.json

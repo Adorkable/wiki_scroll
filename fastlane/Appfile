@@ -1,0 +1,9 @@
+app_identifier("com.adorkable.wikiscroll")
+package_name("com.adorkable.wikiscroll")
+
+team_id(ENV["APPLE_TEAM_ID"]) unless ENV["APPLE_TEAM_ID"].to_s.empty?
+
+# May be relative to the repo root when set in fastlane/.env.
+unless ENV["PLAY_SERVICE_ACCOUNT_JSON_PATH"].to_s.empty?
+  json_key_file(File.expand_path(ENV["PLAY_SERVICE_ACCOUNT_JSON_PATH"], File.expand_path("..", __dir__)))
+end

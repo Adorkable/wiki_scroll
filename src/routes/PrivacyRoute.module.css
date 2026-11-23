@@ -1,0 +1,26 @@
+.page {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 3rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.page h2 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.page p,
+.page ul {
+  margin: 0.5rem 0;
+}
+
+.page ul {
+  padding-left: 1.25rem;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}

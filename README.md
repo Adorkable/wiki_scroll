@@ -53,6 +53,11 @@ All wiki-specific knowledge lives behind the `WikiSource` interface in
 Wikipedia API. Un-skip it to verify the network path after changing sources —
 but note it cannot catch CORS problems, because Node does not enforce CORS.
 
+## Releasing
+
+Builds and store uploads run on GitHub Actions with fastlane. See
+[RELEASING.md](RELEASING.md).
+
 ## Forking this app
 
 `src/wiki/sources.ts` sets the API User-Agent to identify this project.

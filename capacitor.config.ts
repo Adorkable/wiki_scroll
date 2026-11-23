@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.adorkable.wikiscroll',
-  appName: 'wiki-scroll',
+  appName: 'Wiki Scroll',
   webDir: 'dist'
 };
 
