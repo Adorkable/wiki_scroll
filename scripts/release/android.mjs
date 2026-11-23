@@ -7,6 +7,8 @@
 //   npm run android:deploy beta        ...to the beta track
 // (`-- --version-code 5` / `-- --track beta` also work outside PowerShell.)
 import { existsSync } from 'node:fs'
+import { homedir } from 'node:os'
+import { join } from 'node:path'
 import { androidToolchainEnv, fail, heading, parseArgs, repoPath, requireDotEnv, run } from './lib.mjs'
 
 const { positional, options } = parseArgs()
@@ -25,14 +27,27 @@ if (lane === 'deploy') {
   if (json && !existsSync(repoPath(json))) {
     fail(`PLAY_SERVICE_ACCOUNT_JSON_PATH points at ${json}, which does not exist.`)
   }
-  if (!json) {
-    // fastlane falls back to Application Default Credentials.
-    console.log(
-      'No PLAY_SERVICE_ACCOUNT_JSON_PATH set; using your gcloud Application Default Credentials.\n' +
-        'If the upload says it cannot load credentials, run once:\n' +
-        '  gcloud auth application-default login --scopes=openid,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/androidpublisher',
+  // Without a JSON key, fastlane uses Application Default Credentials: the
+  // GOOGLE_APPLICATION_CREDENTIALS file, or the one gcloud saves on login.
+  // Check before spending time on a build that cannot be uploaded.
+  if (!json && !findApplicationDefaultCredentials()) {
+    fail(
+      'No Google credentials found for uploading to Play. Sign in once with an account that has\n' +
+        'release access in the Play Console:\n\n' +
+        '  gcloud auth application-default login --scopes="openid,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/androidpublisher"\n\n' +
+        'or set PLAY_SERVICE_ACCOUNT_JSON_PATH in fastlane/.env.',
     )
   }
+}
+
+function findApplicationDefaultCredentials() {
+  const candidates = [
+    process.env.GOOGLE_APPLICATION_CREDENTIALS,
+    process.platform === 'win32'
+      ? process.env.APPDATA && join(process.env.APPDATA, 'gcloud', 'application_default_credentials.json')
+      : join(homedir(), '.config', 'gcloud', 'application_default_credentials.json'),
+  ]
+  return candidates.find((path) => path && existsSync(path))
 }
 
 const env = androidToolchainEnv()

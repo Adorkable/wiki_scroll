@@ -59,14 +59,26 @@ platform :android do
 
     # A version code must be higher than every code on every track, so look
     # at all of them. Tracks with no releases raise, which counts as none.
+    failures = []
     existing = %w[internal alpha beta production].flat_map do |name|
       google_play_track_version_codes(track: name)
     rescue StandardError => e
-      UI.message("No version codes on #{name}: #{e.message}")
+      failures << "#{name}: #{e.message.lines.first&.strip}"
       []
     end
 
-    aab = signed_bundle(version_code: (existing.max || 0) + 1)
+    # The first release is always uploaded by hand, so some track must have a
+    # build. Finding none means the lookups failed (usually credentials or
+    # permissions), and guessing version code 1 would collide with that build.
+    if existing.empty?
+      UI.user_error!(
+        "Could not read any existing version codes from Google Play. " \
+        "Check your Google credentials and the service account's Play Console access.\n" +
+        failures.join("\n"),
+      )
+    end
+
+    aab = signed_bundle(version_code: existing.max + 1)
 
     upload_to_play_store(
       track: track,
